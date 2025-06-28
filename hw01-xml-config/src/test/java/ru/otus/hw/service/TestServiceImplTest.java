@@ -26,9 +26,9 @@ class TestServiceImplTest {
     @InjectMocks
     private TestServiceImpl testService;
 
-    @DisplayName("Should type questions with answers")
+    @DisplayName("Should type expected questions with answers")
     @Test
-    public void shouldTypeQuestionWithAnswers() {
+    void shouldTypeExpectedQuestionsWithAnswers() {
         List<Question> questions = List.of(
                 new Question("Is there life on Mars?", List.of(
                         new Answer("Science doesn't know this yet", true),
