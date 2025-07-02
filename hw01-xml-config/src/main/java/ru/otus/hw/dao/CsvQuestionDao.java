@@ -8,8 +8,10 @@ import ru.otus.hw.domain.Question;
 import ru.otus.hw.exceptions.QuestionReadException;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 public class CsvQuestionDao implements QuestionDao {
@@ -18,7 +20,7 @@ public class CsvQuestionDao implements QuestionDao {
     @Override
     public List<Question> findAll() {
         try (var inputStream = getClass().getClassLoader().getResourceAsStream(fileNameProvider.getTestFileName());
-             var inputStreamReader = new InputStreamReader(inputStream);
+             var inputStreamReader = new InputStreamReader(Objects.requireNonNull(inputStream));
              var bufferedReader = new BufferedReader(inputStreamReader)) {
             return new CsvToBeanBuilder<QuestionDto>(bufferedReader)
                     .withType(QuestionDto.class)
@@ -29,7 +31,7 @@ public class CsvQuestionDao implements QuestionDao {
                     .stream()
                     .map(QuestionDto::toDomainObject)
                     .toList();
-        } catch (Exception e) {
+        } catch (IOException | NullPointerException e) {
             throw new QuestionReadException("Error during reading file %s".formatted(
                     fileNameProvider.getTestFileName()), e);
         }
