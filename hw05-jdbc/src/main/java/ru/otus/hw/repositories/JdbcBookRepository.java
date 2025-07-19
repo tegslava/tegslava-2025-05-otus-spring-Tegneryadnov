@@ -47,7 +47,6 @@ public class JdbcBookRepository implements BookRepository {
 
     @Override
     public Optional<Book> findById(long id) {
-        try {
             var params = Collections.singletonMap(BOOK_ID, id);
             var sql = """
                     select b.id as book_id,
@@ -63,9 +62,6 @@ public class JdbcBookRepository implements BookRepository {
                     where b.id = :book_id
                     """;
             return Optional.ofNullable(jdbc.query(sql, params, new BookResultSetExtractor()));
-        } catch (EntityNotFoundException e) {
-            return Optional.empty();
-        }
     }
 
     @Override
