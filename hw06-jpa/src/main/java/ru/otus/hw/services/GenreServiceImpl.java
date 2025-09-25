@@ -18,7 +18,8 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public List<GenreDto> findAll() {
-        return genreRepository.findAll()
+        return genreRepository
+                .findAll()
                 .stream()
                 .map(genreConverter::genreToDto)
                 .toList();

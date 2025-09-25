@@ -23,10 +23,21 @@ public class BookConverter {
     }
 
     public String dtoToString(BookDto book) {
+/*        var genresString = book.genres().stream()
+                .map(genreConverter::dtoToString)
+                .map("{%s}"::formatted)
+                .collect(Collectors.joining(", "));
+        return "Id: %d, title: %s, author: {%s}, genres: [%s]".formatted(
+                book.id(),
+                book.title(),
+                authorConverter.dtoToString(book.author()),
+                genresString);*/
+
         var genresString = book.genres().stream()
                 .map(genreConverter::dtoToString)
                 .map("{%s}"::formatted)
                 .collect(Collectors.joining(", "));
+
         return "Id: %d, title: %s, author: {%s}, genres: [%s]".formatted(
                 book.id(),
                 book.title(),

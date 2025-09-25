@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Сервис для работы с комментариями к книгам")
 @SpringBootTest
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
+@Transactional(propagation = Propagation.NEVER)
 public class CommentsServiceTest {
 
     private static final long FIRST_BOOK_ID = 1L;
@@ -71,7 +71,7 @@ public class CommentsServiceTest {
     @Test
     void shouldUpdateCommentText() {
         var expectedComment = new CommentDto(FIRST_COMMENT_ID, FIRST_BOOK_ID, NEW_COMMENT_TEXT);
-        var actualComment = commentService.update(FIRST_COMMENT_ID, FIRST_BOOK_ID, NEW_COMMENT_TEXT);
+        var actualComment = commentService.update(FIRST_COMMENT_ID, NEW_COMMENT_TEXT);
 
         assertThat(actualComment).isEqualTo(expectedComment);
     }

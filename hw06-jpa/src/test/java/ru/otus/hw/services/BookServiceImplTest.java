@@ -14,18 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.GenreDto;
-import ru.otus.hw.exceptions.EntityNotFoundException;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @DisplayName("Сервис для работы с книгами")
 @SpringBootTest
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
+@Transactional(propagation = Propagation.NEVER)
 public class BookServiceImplTest {
 
     private static final long FIRST_BOOK_ID = 1L;
@@ -65,15 +63,12 @@ public class BookServiceImplTest {
                 .isEqualTo(expectedBook);
     }
 
-    @DisplayName("должен возвращать ошибку при поиске несуществующей книги по id")
+    @DisplayName("должен возвращать пустой Optional при поиске несуществующего Id")
     @Test
-    void shouldFailFindBookById() {
+    void shouldReturnEmptyForNonExistingId() {
         val actualBook = bookService.findById(INCORRECT_BOOK_ID);
 
-        assertThatExceptionOfType(EntityNotFoundException.class)
-                .isThrownBy(() -> actualBook
-                        .orElseThrow(() ->
-                                new EntityNotFoundException("Book with id %d not found".formatted(INCORRECT_BOOK_ID))));
+        assertThat(actualBook).isEmpty();
     }
 
     @DisplayName("должен возвращать информацию о всех книгах")

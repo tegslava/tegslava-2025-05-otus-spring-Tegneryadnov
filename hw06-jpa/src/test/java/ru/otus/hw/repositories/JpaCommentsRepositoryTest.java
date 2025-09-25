@@ -38,9 +38,8 @@ public class JpaCommentsRepositoryTest {
         val optionalActualComment = commentsRepository.findById(FIRST_COMMENT_ID);
         val expectedComment = em.find(Comment.class, FIRST_COMMENT_ID);
 
-        assertThat(optionalActualComment).isPresent()
-                .get()
-                .isEqualTo(expectedComment);
+        assertThat(optionalActualComment).isPresent().get()
+                .usingRecursiveComparison().isEqualTo(expectedComment);
     }
 
     @DisplayName("должен возвращать все комментарии по id книги")

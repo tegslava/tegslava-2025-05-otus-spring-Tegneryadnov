@@ -44,8 +44,8 @@ public class CommentCommands {
 
     // cupd 2 CommentUpd 1
     @ShellMethod(value = "Update comment", key = "cupd")
-    public String updateComment(long id, String text, long bookId) {
-        var savedComment = commentService.update(id, bookId, text);
+    public String updateComment(long id, String text) {
+        var savedComment = commentService.update(id, text);
         return commentConverter.dtoToString(savedComment);
     }
 

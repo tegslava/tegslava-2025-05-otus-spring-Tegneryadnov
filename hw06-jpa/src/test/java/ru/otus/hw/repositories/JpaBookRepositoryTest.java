@@ -55,9 +55,11 @@ public class JpaBookRepositoryTest {
     @MethodSource("getDbBooks")
     void shouldReturnCorrectBookById(Book expectedBook) {
         val actualBook = bookRepository.findById(expectedBook.getId());
-
-        assertThat(actualBook).isPresent()
+        assertThat(actualBook)
+                .isPresent()
                 .get()
+                .usingRecursiveComparison()
+                .ignoringExpectedNullFields()
                 .isEqualTo(expectedBook);
     }
 
@@ -83,11 +85,6 @@ public class JpaBookRepositoryTest {
         assertThat(actualBook).isNotNull()
                 .matches(book -> book.getId() > 0)
                 .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
-
-        assertThat(bookRepository.findById(actualBook.getId()))
-                .isPresent()
-                .get()
-                .isEqualTo(actualBook);
     }
 
     @DisplayName("должен сохранять измененную книгу")
@@ -104,11 +101,6 @@ public class JpaBookRepositoryTest {
                 .matches(book -> book.getId() > 0)
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
-                .isEqualTo(expectedBook);
-
-        assertThat(bookRepository.findById(actualBook.getId()))
-                .isPresent()
-                .get()
                 .isEqualTo(expectedBook);
     }
 

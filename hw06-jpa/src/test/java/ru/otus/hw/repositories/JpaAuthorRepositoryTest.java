@@ -33,9 +33,8 @@ public class JpaAuthorRepositoryTest {
         val optionalActualAuthor = authorRepository.findById(FIRST_AUTHOR_ID);
         val expectedAuthor = em.find(Author.class, FIRST_AUTHOR_ID);
 
-        assertThat(optionalActualAuthor).isPresent()
-                .get()
-                .isEqualToComparingFieldByField(expectedAuthor);
+        assertThat(optionalActualAuthor).isPresent().get()
+                .usingRecursiveComparison().isEqualTo(expectedAuthor);
     }
 
     @DisplayName("должен загружать список всех авторов")
@@ -44,7 +43,9 @@ public class JpaAuthorRepositoryTest {
         val expectedAuthors = getDbAuthors();
         val actualAuthors = authorRepository.findAll();
 
-        assertThat(actualAuthors).containsExactlyInAnyOrderElementsOf(expectedAuthors);
+        assertThat(actualAuthors)
+                .usingRecursiveFieldByFieldElementComparator()
+                .containsExactlyInAnyOrderElementsOf(expectedAuthors);
     }
 
     private static List<Author> getDbAuthors() {

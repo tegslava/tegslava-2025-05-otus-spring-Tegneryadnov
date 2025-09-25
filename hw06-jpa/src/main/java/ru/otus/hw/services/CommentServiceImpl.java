@@ -44,17 +44,15 @@ public class CommentServiceImpl implements CommentService {
     public CommentDto insert(long bookId, String text) {
         var book = findBook(bookId);
         var comment = new Comment(0, text, book);
-        return commentConverter.commentToDto(
-                commentRepository.save(comment));
+        return commentConverter.commentToDto(commentRepository.save(comment));
     }
 
     @Transactional
     @Override
-    public CommentDto update(long id, long bookId, String text) {
+    public CommentDto update(long id, String text) {
         var comment = findComment(id);
         comment.setText(text);
-        return commentConverter.commentToDto(
-                commentRepository.save(comment)
+        return commentConverter.commentToDto(commentRepository.save(comment)
         );
     }
 
@@ -66,8 +64,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private Book findBook(long bookId) {
-        return bookRepository.findById(bookId).orElseThrow(() ->
-                new EntityNotFoundException("Book with %d id not found".formatted(bookId))
+        return bookRepository.findById(bookId)
+                .orElseThrow(() ->
+                    new EntityNotFoundException("Book with %d id not found".formatted(bookId))
         );
     }
 

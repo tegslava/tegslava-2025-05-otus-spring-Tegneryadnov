@@ -10,13 +10,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.proxy.HibernateProxy;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Getter
 @Setter
-@ToString()
+@ToString(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -25,40 +24,10 @@ public class Author {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
+    @ToString.Include
     private long id;
 
     @Column(name = "full_name", nullable = false)
+    @ToString.Include
     private String fullName;
-
-    @Override
-    public final boolean equals(Object that) {
-        if (this == that) {
-            return true;
-        }
-        if (that == null) {
-            return false;
-        }
-
-        var thatClass = that instanceof HibernateProxy
-                ? ((HibernateProxy) that).getHibernateLazyInitializer().getPersistentClass()
-                : that.getClass();
-        var thisClass = this instanceof HibernateProxy
-                ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass()
-                : this.getClass();
-
-        if (thisClass != thatClass) {
-            return false;
-        }
-
-        Author author = (Author) that;
-
-        return getId() == author.getId();
-    }
-
-    @Override
-    public final int hashCode() {
-        return this instanceof HibernateProxy
-                ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode()
-                : getClass().hashCode();
-    }
 }

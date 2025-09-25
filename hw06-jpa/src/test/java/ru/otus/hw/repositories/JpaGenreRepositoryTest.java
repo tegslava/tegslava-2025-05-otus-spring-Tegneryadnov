@@ -50,7 +50,9 @@ public class JpaGenreRepositoryTest {
         val expectedGenres = getDbGenres();
         val actualGenres = genreRepository.findAll();
 
-        assertThat(actualGenres).containsExactlyElementsOf(expectedGenres);
+        assertThat(actualGenres)
+                .usingRecursiveFieldByFieldElementComparator()
+                .containsExactlyInAnyOrderElementsOf(expectedGenres);
     }
 
     private static List<Genre> getDbGenres() {
