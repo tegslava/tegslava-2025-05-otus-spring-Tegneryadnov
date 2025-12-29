@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("Сервис для работы с комментариями к книгам")
 @SpringBootTest
 @Transactional(propagation = Propagation.NEVER)
-public class CommentsServiceTest {
+public class CommentsServiceImplTest {
 
     private static final long FIRST_BOOK_ID = 1L;
     private static final long FIRST_COMMENT_ID = 1L;
