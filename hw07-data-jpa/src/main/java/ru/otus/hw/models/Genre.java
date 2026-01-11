@@ -23,7 +23,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 public class Genre {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    /*@Column(name = "id")*/
+    @Column(name = "id")
     @ToString.Include
     private long id;
 

@@ -15,7 +15,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Optional<Book> findById(@Nonnull Long aLong);
 
     @EntityGraph("book-author-entity-graph")
-    //@EntityGraph("book-author-genres-entity-graph")
     @Override
     @Nonnull
     List<Book> findAll();
